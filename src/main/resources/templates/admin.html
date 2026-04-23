@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SmartServe AI Admin</title>
+    <link rel="stylesheet" href="/css/app.css">
+</head>
+<body>
+<header class="topbar">
+    <div class="brand">SmartServe AI</div>
+    <nav>
+        <a href="/ui/dashboard">Dashboard</a>
+        <a href="/ui/services">Services</a>
+        <a href="/ui/bookings">Bookings</a>
+        <a href="/ui/admin">Admin</a>
+        <a href="/swagger-ui/index.html">Swagger</a>
+    </nav>
+</header>
+<main>
+    <section class="hero">
+        <div>
+            <h1>Admin analytics for growth and risk.</h1>
+            <p class="lede">Graph-ready API data is rendered here for bookings per day, top categories, fraud trends, and provider demand.</p>
+        </div>
+        <div class="notice">
+            <h2>Summary</h2>
+            <p>Total users <strong th:text="${analytics.totalUsers}">0</strong></p>
+            <p>Total bookings <strong th:text="${analytics.totalBookings}">0</strong></p>
+            <p>Flagged bookings <strong th:text="${analytics.flaggedBookings}">0</strong></p>
+        </div>
+    </section>
+
+    <section class="page grid">
+        <article class="card">
+            <h2>Bookings per day</h2>
+            <div th:each="point : ${bookingsPerDay}" class="chart-row">
+                <span th:text="${point.label}">day</span>
+                <div class="bar" th:style="'width:' + ${point.value * 18 + 8} + 'px'"></div>
+                <strong th:text="${point.value}">0</strong>
+            </div>
+        </article>
+        <article class="card">
+            <h2>Top categories</h2>
+            <div th:each="point : ${topCategories}" class="chart-row">
+                <span th:text="${point.label}">category</span>
+                <div class="bar" th:style="'width:' + ${point.value * 24 + 8} + 'px'"></div>
+                <strong th:text="${point.value}">0</strong>
+            </div>
+        </article>
+        <article class="card">
+            <h2>Fraud trends</h2>
+            <div th:each="point : ${fraudTrends}" class="chart-row">
+                <span th:text="${point.label}">day</span>
+                <div class="bar" th:style="'width:' + ${point.value * 24 + 8} + 'px'"></div>
+                <strong th:text="${point.value}">0</strong>
+            </div>
+        </article>
+    </section>
+</main>
+</body>
+</html>

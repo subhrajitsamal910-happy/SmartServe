@@ -1,0 +1,74 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: SmartServe AI – Intelligent Local Service Booking Platform
+
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://postgres:5432/smartbooking}
+    driverClassName: org.postgresql.Driver
+    username: ${SPRING_DATASOURCE_USERNAME:postgres}
+    password: ${SPRING_DATASOURCE_PASSWORD:postgres}
+
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+  data:
+    redis:
+      host: ${SPRING_REDIS_HOST:redis}
+      port: ${SPRING_REDIS_PORT:6379}
+
+  thymeleaf:
+    cache: true
+    prefix: classpath:/templates/
+    suffix: .html
+
+  rabbitmq:
+    host: ${SPRING_RABBITMQ_HOST:rabbitmq}
+    port: ${SPRING_RABBITMQ_PORT:5672}
+    username: ${SPRING_RABBITMQ_USERNAME:guest}
+    password: ${SPRING_RABBITMQ_PASSWORD:guest}
+
+logging:
+  level:
+    root: INFO
+    com.smartbooking: INFO
+    org.springframework: INFO
+    org.springframework.security: INFO
+    org.hibernate.SQL: INFO
+    org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLogger: OFF
+
+jwt:
+  secret: ${JWT_SECRET:mySecretKeyForJWTTokenGenerationAndValidation12345678901234567890}
+  expiration: ${JWT_EXPIRATION:86400000}
+  refresh-expiration: ${JWT_REFRESH_EXPIRATION:604800000}
+
+stripe:
+  secret-key: ${STRIPE_SECRET_KEY:}
+
+storage:
+  mode: ${STORAGE_MODE:local}
+  local-base-url: ${STORAGE_LOCAL_BASE_URL:http://localhost:8080/uploads}
+  bucket: ${AWS_S3_BUCKET:}
+  region: ${AWS_REGION:us-east-1}
+
+openai:
+  api-key: ${OPENAI_API_KEY:}
+  model: ${OPENAI_MODEL:gpt-4o-mini}
+
+gemini:
+  api-key: ${GEMINI_API_KEY:}
+  model: ${GEMINI_MODEL:gemini-2.0-flash}
+
+app:
+  cache:
+    redis-enabled: ${APP_CACHE_REDIS_ENABLED:true}
+  messaging:
+    rabbit-enabled: ${APP_MESSAGING_RABBIT_ENABLED:true}

@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SmartServe AI Booking Demo</title>
+    <link rel="stylesheet" href="/css/app.css">
+</head>
+<body>
+<header class="topbar">
+    <div class="brand">SmartServe AI</div>
+    <nav>
+        <a href="/ui/dashboard">Dashboard</a>
+        <a href="/ui/services">Services</a>
+        <a href="/ui/bookings">Bookings</a>
+        <a href="/ui/admin">Admin</a>
+        <a href="/swagger-ui/index.html">Swagger</a>
+    </nav>
+</header>
+<main class="page">
+    <h1>Booking API demo</h1>
+    <p class="lede">Login through Swagger, authorize with the JWT, then create bookings with a service id. The response includes status, risk score, fraud message, and simulated payment status.</p>
+    <div class="grid">
+        <article class="card">
+            <h2>Demo credentials</h2>
+            <p><strong>user@smartserve.ai</strong> / password123</p>
+            <p><strong>admin@smartserve.ai</strong> / admin123</p>
+            <a class="button primary" href="/swagger-ui/index.html">Open Swagger</a>
+        </article>
+        <article class="card">
+            <h2>Request body</h2>
+            <pre>{
+  "serviceId": 1
+}</pre>
+        </article>
+    </div>
+    <section class="page grid">
+        <article class="card" th:each="service : ${services}">
+            <h3><span th:text="${service.id}">1</span>: <span th:text="${service.title}">Service</span></h3>
+            <p th:text="${service.category}">Category</p>
+        </article>
+    </section>
+</main>
+</body>
+</html>

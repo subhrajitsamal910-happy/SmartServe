@@ -1,0 +1,43 @@
+{
+    "folders": [
+        {
+            "name": "smart-booking-platform",
+            "path": "."
+        }
+    ],
+    "settings": {
+        "java.compile.nullAnalysis.mode": "automatic",
+        "java.configuration.updateBuildConfiguration": "automatic",
+        "java.jdt.ls.java.home": "/Library/Java/JavaVirtualMachines/jdk-24.jdk/Contents/Home",
+        "java.configuration.runtimes": [
+            {
+                "name": "JavaSE-24",
+                "path": "/Library/Java/JavaVirtualMachines/jdk-24.jdk/Contents/Home",
+                "default": true
+            },
+            {
+                "name": "JavaSE-17",
+                "path": "/Library/Java/JavaVirtualMachines/temurin-17.jdk/Contents/Home"
+            }
+        ],
+        "java.import.gradle.enabled": false,
+        "java.import.maven.enabled": true,
+        "java.project.importOnFirstTimeStartup": "automatic",
+        "java.project.explorer.show": true,
+        "java.server.launchMode": "Standard",
+        "java.project.importHint": false,
+        "java.project.root": "${workspaceFolder}",
+        "java.project.exportJar.enabled": false,
+        "java.project.exportJar.targetPath": "target/smart-booking-platform.jar",
+        "java.format.enabled": true,
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": "explicit"
+        }
+    },
+    "extensions": {
+        "recommendations": [
+            "vscjava.vscode-java-pack",
+            "vmware.vscode-spring-boot"
+        ]
+    }
+}

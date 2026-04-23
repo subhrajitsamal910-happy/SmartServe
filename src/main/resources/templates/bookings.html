@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SmartServe AI Bookings</title>
+    <link rel="stylesheet" href="/css/app.css">
+</head>
+<body>
+<header class="topbar">
+    <div class="brand">SmartServe AI</div>
+    <nav>
+        <a href="/ui/dashboard">Dashboard</a>
+        <a href="/ui/services">Services</a>
+        <a href="/ui/bookings">Bookings</a>
+        <a href="/ui/admin">Admin</a>
+        <a href="/swagger-ui/index.html">Swagger</a>
+    </nav>
+</header>
+<main class="page">
+    <h1>Booking history</h1>
+    <p class="lede">Confirmed and flagged bookings include payment state and risk score, making the booking flow audit-ready.</p>
+    <div class="table-wrap">
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Service</th>
+                <th>User</th>
+                <th>Status</th>
+                <th>Risk</th>
+                <th>Payment</th>
+                <th>Created</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="booking : ${bookings}">
+                <td th:text="${booking.bookingId}">1</td>
+                <td th:text="${booking.serviceTitle}">Service</td>
+                <td th:text="${booking.userId}">1</td>
+                <td><span th:class="${booking.status.name() == 'FLAGGED' ? 'badge flagged' : (booking.status.name() == 'CANCELLED' ? 'badge cancelled' : 'badge')}" th:text="${booking.status}">CONFIRMED</span></td>
+                <td th:text="${booking.riskScore}">0</td>
+                <td th:text="${booking.paymentStatus}">SUCCESS</td>
+                <td th:text="${#temporals.format(booking.createdAt, 'dd MMM yyyy HH:mm')}">Date</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+</body>
+</html>

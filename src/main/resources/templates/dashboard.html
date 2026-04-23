@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SmartServe AI Dashboard</title>
+    <link rel="stylesheet" href="/css/app.css">
+</head>
+<body>
+<header class="topbar">
+    <div class="brand">SmartServe AI</div>
+    <nav>
+        <a href="/ui/dashboard">Dashboard</a>
+        <a href="/ui/services">Services</a>
+        <a href="/ui/bookings">Bookings</a>
+        <a href="/ui/admin">Admin</a>
+        <a href="/swagger-ui/index.html">Swagger</a>
+    </nav>
+</header>
+<main>
+    <section class="hero">
+        <div>
+            <h1>Local service intelligence, live and accountable.</h1>
+            <p class="lede">Track bookings, recommendation signals, fraud alerts, and marketplace demand from one production-style control room.</p>
+            <div class="actions">
+                <a class="button primary" href="/ui/services">Explore services</a>
+                <a class="button" href="/ui/admin">Open analytics</a>
+            </div>
+        </div>
+        <div class="notice">
+            <h2>Live booking feed</h2>
+            <p>New booking events appear here when the WebSocket connection is available.</p>
+            <div id="liveFeed" class="live-feed">
+                <span class="badge">Waiting for events</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="page grid">
+        <article class="metric"><span>Total bookings</span><strong th:text="${analytics.totalBookings}">0</strong></article>
+        <article class="metric"><span>Total services</span><strong th:text="${analytics.totalServices}">0</strong></article>
+        <article class="metric"><span>Fraud alerts</span><strong th:text="${analytics.flaggedBookings}">0</strong></article>
+        <article class="metric"><span>Most booked</span><strong th:text="${analytics.mostBookedService}">N/A</strong></article>
+    </section>
+
+    <section class="page">
+        <h2>Top services</h2>
+        <div class="grid">
+            <article class="card" th:each="service : ${topServices}">
+                <span class="badge" th:text="${service.category}">CATEGORY</span>
+                <h3 th:text="${service.title}">Service</h3>
+                <p th:text="${service.providerName}">Provider</p>
+                <p>Rating <strong th:text="${service.averageRating}">0</strong> · Bookings <strong th:text="${service.bookingCount}">0</strong></p>
+            </article>
+        </div>
+    </section>
+
+    <section class="page">
+        <h2>Fraud alerts</h2>
+        <div class="grid" th:if="${not #lists.isEmpty(fraudAlerts)}">
+            <article class="card" th:each="booking : ${fraudAlerts}">
+                <span class="badge flagged">FLAGGED</span>
+                <h3 th:text="${booking.serviceTitle}">Service</h3>
+                <p>Risk score <strong th:text="${booking.riskScore}">0</strong></p>
+                <p th:text="${booking.fraudMessage}">High fraud risk detected</p>
+            </article>
+        </div>
+        <p class="notice" th:if="${#lists.isEmpty(fraudAlerts)}">No flagged bookings in the seeded demo data yet.</p>
+    </section>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@7/bundles/stomp.umd.min.js"></script>
+<script>
+    const feed = document.getElementById('liveFeed');
+    if (window.SockJS && window.StompJs) {
+        const client = new StompJs.Client({
+            webSocketFactory: function () { return new SockJS('/ws'); },
+            reconnectDelay: 5000,
+            onConnect: function () {
+                client.subscribe('/topic/bookings', function (message) {
+                    const event = JSON.parse(message.body);
+                    const flagClass = event.status === 'FLAGGED' ? ' flagged' : '';
+                    feed.innerHTML = '<div class="card"><strong>#' + event.bookingId + '</strong> ' + event.serviceTitle + ' <span class="badge' + flagClass + '">' + event.status + '</span><p>Risk score ' + event.riskScore + '</p></div>' + feed.innerHTML;
+                });
+            }
+        });
+        client.activate();
+    }
+</script>
+</body>
+</html>

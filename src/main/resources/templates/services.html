@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SmartServe AI Services</title>
+    <link rel="stylesheet" href="/css/app.css">
+</head>
+<body>
+<header class="topbar">
+    <div class="brand">SmartServe AI</div>
+    <nav>
+        <a href="/ui/dashboard">Dashboard</a>
+        <a href="/ui/services">Services</a>
+        <a href="/ui/bookings">Bookings</a>
+        <a href="/ui/admin">Admin</a>
+        <a href="/swagger-ui/index.html">Swagger</a>
+    </nav>
+</header>
+<main>
+    <section class="hero">
+        <div>
+            <h1>Book capable local experts with smarter ranking.</h1>
+            <p class="lede">Each service card carries demand, ratings, provider, and category data used by the recommendation engine.</p>
+        </div>
+        <div class="notice">
+            <h2>Try the chatbot</h2>
+            <p>Ask for top services, book electrician, cleaning, tutoring, plumbing, or painting.</p>
+            <input id="chatInput" value="book electrician" aria-label="Chat message">
+            <button type="button" onclick="askChat()">Ask AI</button>
+            <p id="chatResult"></p>
+        </div>
+    </section>
+    <section class="page grid">
+        <article class="card" th:each="service : ${services}">
+            <span class="badge" th:text="${service.category}">CATEGORY</span>
+            <h2 th:text="${service.title}">Service</h2>
+            <p th:text="${service.description}">Description</p>
+            <p><strong th:text="${service.providerName}">Provider</strong></p>
+            <p class="price">Rs <span th:text="${service.price}">0</span></p>
+            <p>Rating <strong th:text="${service.averageRating}">0</strong> from <span th:text="${service.ratingCount}">0</span> review(s)</p>
+            <p>Bookings <strong th:text="${service.bookingCount}">0</strong></p>
+            <button type="button" th:attr="data-service-id=${service.id}" onclick="bookHint(this)">Book Now</button>
+        </article>
+    </section>
+</main>
+<script>
+    function bookHint(button) {
+        alert('Use POST /api/bookings with serviceId ' + button.dataset.serviceId + ' after JWT login. Swagger is linked in the top nav.');
+    }
+    async function askChat() {
+        const result = document.getElementById('chatResult');
+        const message = document.getElementById('chatInput').value;
+        const response = await fetch('/api/chat', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({message: message})
+        });
+        const data = await response.json();
+        result.textContent = data.response + ' ' + (data.services || []).map(function (service) { return service.title; }).join(', ');
+    }
+</script>
+</body>
+</html>

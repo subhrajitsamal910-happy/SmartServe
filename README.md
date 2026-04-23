@@ -208,14 +208,18 @@ curl -X POST http://localhost:8080/api/chat \
   -d '{"message":"book electrician"}'
 ```
 
-Gemini chatbot config:
+Chatbot provider config:
 
 ```bash
 export GEMINI_API_KEY=your-gemini-api-key
 export GEMINI_MODEL=gemini-2.0-flash
+export OPENAI_API_KEY=your-openai-api-key
+export OPENAI_MODEL=gpt-4o-mini
 ```
 
-If the Gemini API returns a quota or billing error, the chatbot automatically falls back to the built-in service search flow. To use live Gemini responses, the Google AI project must have an active quota or billing-enabled plan.
+The chatbot attempts Gemini first, then OpenAI, then the built-in service search fallback.
+
+If Gemini returns a quota or billing error, OpenAI can still answer when `OPENAI_API_KEY` is set. If both providers are unavailable, the built-in service search response is returned.
 
 Admin analytics:
 

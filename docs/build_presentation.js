@@ -493,3 +493,4 @@ generatePresentation().catch(err => {
   console.error('Error generating presentation:', err);
   process.exit(1);
 });
+

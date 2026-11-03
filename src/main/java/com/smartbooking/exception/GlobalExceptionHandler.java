@@ -38,7 +38,8 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponseDto> handleValidation(MethodArgumentNotValidException ex, HttpServletRequest request) {
         Map<String, String> fields = new LinkedHashMap<>();
         ex.getBindingResult().getFieldErrors().forEach(error -> fields.put(error.getField(), error.getDefaultMessage()));
-        return error(HttpStatus.BAD_REQUEST, "Validation failed.", request, fields);
+        String firstError = fields.values().stream().findFirst().orElse("Validation failed.");
+        return error(HttpStatus.BAD_REQUEST, firstError, request, fields);
     }
 
     @ExceptionHandler(IllegalArgumentException.class)

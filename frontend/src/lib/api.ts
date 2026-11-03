@@ -51,7 +51,8 @@ async function request<T>(path: string, init?: RequestInit, retry = true): Promi
   const payload = contentType.includes('application/json') ? await response.json() : null;
 
   if (!response.ok) {
-    throw new Error(payload?.message || payload?.error || 'Request failed');
+    const fieldMsgs = payload?.fieldErrors ? Object.values(payload.fieldErrors).join(', ') : null;
+    throw new Error(fieldMsgs || payload?.message || payload?.error || 'Request failed');
   }
 
   return payload as T;

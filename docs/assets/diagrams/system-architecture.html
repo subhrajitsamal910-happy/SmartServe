@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  body { margin: 0; padding: 20px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #ffffff; width: 1200px; }
+  .diagram-container { border: 2px solid #0f172a; border-radius: 16px; padding: 24px; background: #f8fafc; }
+  .title { text-align: center; font-size: 22px; font-weight: 800; color: #0f172a; margin-bottom: 24px; letter-spacing: -0.5px; }
+  .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .tier { border-radius: 12px; padding: 16px; background: #ffffff; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); border: 1px solid #e2e8f0; }
+  .tier-header { font-size: 15px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 2px solid; }
+  .tier-1 .tier-header { color: #2563eb; border-color: #93c5fd; }
+  .tier-2 .tier-header { color: #7c3aed; border-color: #c4b5fd; }
+  .tier-3 .tier-header { color: #059669; border-color: #6ee7b7; }
+  .tier-4 .tier-header { color: #d97706; border-color: #fcd34d; }
+  .box { background: #f1f5f9; border-radius: 8px; padding: 10px 12px; margin-bottom: 10px; font-size: 13px; color: #1e293b; border-left: 4px solid #64748b; }
+  .box strong { display: block; font-size: 13.5px; margin-bottom: 3px; color: #0f172a; }
+  .tier-1 .box { border-left-color: #2563eb; background: #eff6ff; }
+  .tier-2 .box { border-left-color: #7c3aed; background: #f5f3ff; }
+  .tier-3 .box { border-left-color: #059669; background: #ecfdf5; }
+  .tier-4 .box { border-left-color: #d97706; background: #fffbeb; }
+  .flow-arrow { text-align: center; font-size: 18px; color: #64748b; margin: 6px 0; }
+</style>
+</head>
+<body>
+<div class="diagram-container">
+  <div class="title">Figure 3.1: SmartServe AI – Multi-Tier High-Level System Architecture</div>
+  <div class="grid">
+    <div class="tier tier-1">
+      <div class="tier-header">1. Presentation Tier</div>
+      <div class="box"><strong>Next.js 14 App Router</strong>React 18 Server & Client Components, Dynamic Routing</div>
+      <div class="box"><strong>Tailwind CSS & Radix UI</strong>Responsive UI, Theme Shell, Accessible Modals & Forms</div>
+      <div class="box"><strong>Recharts & Lucide Icons</strong>Interactive Trend Visualizations, Intuitive Iconography</div>
+      <div class="box"><strong>STOMP WebSocket Client</strong>Live bidirectional booking notifications & updates</div>
+      <div class="box"><strong>Smart Chat Widget</strong>Conversational Assistant with Quick Suggestion Chips</div>
+    </div>
+    <div class="tier tier-2">
+      <div class="tier-header">2. Security & Gateway Tier</div>
+      <div class="box"><strong>Spring Security 6</strong>Stateless session management, RBAC (ROLE_USER, ROLE_ADMIN)</div>
+      <div class="box"><strong>JWT Token Filter</strong>HMAC-SHA256 bearer token validation on protected endpoints</div>
+      <div class="box"><strong>CORS Configuration</strong>Pattern-based origins: localhost & Vercel deployment domains</div>
+      <div class="box"><strong>Global Exception Handler</strong>Unified ErrorResponseDto with field validation tracking</div>
+      <div class="box"><strong>OpenAPI / Swagger 3</strong>Auto-generated interactive API documentation at /swagger-ui</div>
+    </div>
+    <div class="tier tier-3">
+      <div class="tier-header">3. Application Business Tier</div>
+      <div class="box"><strong>Booking Orchestration</strong>Slot conflict validation, duration management, auto-scheduling</div>
+      <div class="box"><strong>AI Fraud Detection Engine</strong>Velocity & pattern checks, dynamic risk score (0-100 threshold)</div>
+      <div class="box"><strong>Hybrid Recommendation</strong>6-signal ranking: collaborative, category, ratings, popularity</div>
+      <div class="box"><strong>Smart Knowledge Chatbot</strong>15+ domain intent mapping, offline fallback, LLM connector</div>
+      <div class="box"><strong>Payment Simulation Engine</strong>Realtime transaction ID generation & failure risk holding</div>
+    </div>
+    <div class="tier tier-4">
+      <div class="tier-header">4. Persistence & Cloud Tier</div>
+      <div class="box"><strong>NeonDB Cloud PostgreSQL</strong>Serverless PostgreSQL with SSL & channel binding</div>
+      <div class="box"><strong>Spring Data JPA & Hibernate</strong>ORM mapping, automated schema evolution (ddl-auto)</div>
+      <div class="box"><strong>HikariCP Connection Pool</strong>Low-latency connection pooling with auto-recovery</div>
+      <div class="box"><strong>External AI / Payment APIs</strong>Google Gemini API, OpenAI GPT-4o-mini, Stripe Gateway</div>
+      <div class="box"><strong>Local/S3 File Storage</strong>Abstracted provider avatar & document asset management</div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

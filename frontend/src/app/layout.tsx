@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import { Toaster } from 'sonner';
 import { AuthProvider } from '../context/AuthContext';
 import { ThemeProvider } from '../context/ThemeContext';
+import { ChatWidget } from '../components/ChatWidget';
 
 export const metadata: Metadata = {
   title: 'SmartServe AI',
@@ -16,6 +17,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <ThemeProvider>
           <AuthProvider>
             {children}
+            <ChatWidget />
             <Toaster position='top-right' richColors closeButton />
           </AuthProvider>
         </ThemeProvider>

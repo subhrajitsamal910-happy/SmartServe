@@ -61,7 +61,11 @@ public class BookingService {
         ServiceEntity service = serviceRepository.findById(serviceId)
             .orElseThrow(() -> new ResourceNotFoundException("Service not found."));
 
-        LocalDateTime requestedAt = Objects.requireNonNull(request.getScheduledAt(), "scheduledAt is required");
+        LocalDateTime requestedAt = Objects.requireNonNull(request.getScheduledAtAsLocalDateTime(), "scheduledAt is required");
+        // Default to 1 hour from now if somehow null/past
+        if (requestedAt.isBefore(LocalDateTime.now())) {
+            requestedAt = LocalDateTime.now().plusHours(1);
+        }
         int durationMinutes = request.getDurationMinutes() <= 0 ? 60 : request.getDurationMinutes();
 
         LocalDateTime conflictSuggestion = suggestNextSlot(service, requestedAt, durationMinutes);

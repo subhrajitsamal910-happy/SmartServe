@@ -1,10 +1,15 @@
 package com.smartbooking.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 public class RecommendationDto {
     private Long userId;
+
+    /** Exposed as both "logic" and "logicSummary" for frontend compatibility. */
+    @JsonProperty("logicSummary")
     private String logic;
+
     private List<ServiceResponseDto> recommendedServices;
 
     public RecommendationDto(Long userId, String logic, List<ServiceResponseDto> recommendedServices) {
@@ -13,15 +18,10 @@ public class RecommendationDto {
         this.recommendedServices = recommendedServices;
     }
 
-    public Long getUserId() {
-        return userId;
-    }
+    public Long getUserId() { return userId; }
 
-    public String getLogic() {
-        return logic;
-    }
+    @JsonProperty("logicSummary")
+    public String getLogic() { return logic; }
 
-    public List<ServiceResponseDto> getRecommendedServices() {
-        return recommendedServices;
-    }
+    public List<ServiceResponseDto> getRecommendedServices() { return recommendedServices; }
 }

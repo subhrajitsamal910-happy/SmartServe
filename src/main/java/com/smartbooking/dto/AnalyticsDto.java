@@ -1,12 +1,17 @@
 package com.smartbooking.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 public class AnalyticsDto {
     private long totalUsers;
     private long totalBookings;
     private long totalServices;
+
+    /** Exposed as both "flaggedBookings" and "totalFlaggedBookings" for frontend compatibility. */
+    @JsonProperty("totalFlaggedBookings")
     private long flaggedBookings;
+
     private String mostBookedService;
     private List<TopProviderDto> topProviders;
 
@@ -19,27 +24,13 @@ public class AnalyticsDto {
         this.topProviders = topProviders;
     }
 
-    public long getTotalUsers() {
-        return totalUsers;
-    }
+    public long getTotalUsers() { return totalUsers; }
+    public long getTotalBookings() { return totalBookings; }
+    public long getTotalServices() { return totalServices; }
 
-    public long getTotalBookings() {
-        return totalBookings;
-    }
+    @JsonProperty("totalFlaggedBookings")
+    public long getFlaggedBookings() { return flaggedBookings; }
 
-    public long getTotalServices() {
-        return totalServices;
-    }
-
-    public long getFlaggedBookings() {
-        return flaggedBookings;
-    }
-
-    public String getMostBookedService() {
-        return mostBookedService;
-    }
-
-    public List<TopProviderDto> getTopProviders() {
-        return topProviders;
-    }
+    public String getMostBookedService() { return mostBookedService; }
+    public List<TopProviderDto> getTopProviders() { return topProviders; }
 }

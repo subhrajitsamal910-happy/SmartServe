@@ -190,7 +190,7 @@ export default function DashboardPage() {
             <ChatAssistant onAsk={askAssistant} />
             <div className='glass card-border rounded-3xl p-5 shadow-glow'>
               <h3 className='text-lg font-bold'>AI insights</h3>
-              <p className='mt-2 text-sm text-[var(--muted)]'>{assistantReply}</p>
+              <div className='mt-2 text-sm text-[var(--muted)] whitespace-pre-line leading-relaxed'>{assistantReply}</div>
             </div>
             <div className='glass card-border rounded-3xl p-5 shadow-glow'>
               <div className='mb-4 flex items-center justify-between'>

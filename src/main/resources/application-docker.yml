@@ -6,10 +6,13 @@ spring:
     name: SmartServe AI – Intelligent Local Service Booking Platform
 
   datasource:
-    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://postgres:5432/smartbooking}
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://ep-restless-breeze-b3oqmnsr-pooler.c-4.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require}
     driverClassName: org.postgresql.Driver
-    username: ${SPRING_DATASOURCE_USERNAME:postgres}
-    password: ${SPRING_DATASOURCE_PASSWORD:postgres}
+    username: ${SPRING_DATASOURCE_USERNAME:neondb_owner}
+    password: ${SPRING_DATASOURCE_PASSWORD:npg_HtKJvxl62Bmp}
+    hikari:
+      maximum-pool-size: 5
+      connection-timeout: 20000
 
   jpa:
     open-in-view: false
@@ -68,6 +71,7 @@ gemini:
   model: ${GEMINI_MODEL:gemini-2.0-flash}
 
 app:
+  cors-allowed-origins: ${APP_CORS_ALLOWED_ORIGINS:http://localhost:3000,https://*.vercel.app}
   cache:
     redis-enabled: ${APP_CACHE_REDIS_ENABLED:true}
   messaging:

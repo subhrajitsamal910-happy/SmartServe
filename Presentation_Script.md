@@ -142,3 +142,4 @@ Here are the questions teachers most frequently ask during MCA project vivas, al
 ### Q6: What are the current limitations of this project?
 > **Answer:**  
 > "Currently, payments are simulated with transactional status tracking rather than connected to live bank accounts, and the application runs as a responsive web app rather than a native mobile application. In our future scope, we have planned React Native mobile apps and live Stripe/Razorpay payment webhooks."
+

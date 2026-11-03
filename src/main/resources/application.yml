@@ -3,13 +3,16 @@ server:
 
 spring:
   application:
-    name: SmartServe AI – Intelligent Local Service Booking Platform
+    name: SmartServe AI - Intelligent Local Service Booking Platform
 
   datasource:
-    url: ${SPRING_DATASOURCE_URL:jdbc:h2:mem:smartbooking;MODE=PostgreSQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE}
-    driverClassName: ${SPRING_DATASOURCE_DRIVER_CLASS_NAME:org.h2.Driver}
-    username: ${SPRING_DATASOURCE_USERNAME:sa}
-    password: ${SPRING_DATASOURCE_PASSWORD:}
+    url: jdbc:postgresql://ep-restless-breeze-b3oqmnsr-pooler.c-4.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require
+    driverClassName: org.postgresql.Driver
+    username: neondb_owner
+    password: npg_HtKJvxl62Bmp
+    hikari:
+      maximum-pool-size: 5
+      connection-timeout: 20000
 
   jpa:
     open-in-view: false
@@ -19,7 +22,8 @@ spring:
     properties:
       hibernate:
         format_sql: true
-    database-platform: ${SPRING_JPA_DATABASE_PLATFORM:org.hibernate.dialect.H2Dialect}
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
 
   data:
     redis:
@@ -45,11 +49,17 @@ spring:
       max-file-size: 8MB
       max-request-size: 8MB
 
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
+      - org.springframework.boot.autoconfigure.data.redis.RedisRepositoriesAutoConfiguration
+      - org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration
+
 management:
   endpoints:
     web:
       exposure:
-        include: health,info,metrics,prometheus
+        include: health,info,metrics
   endpoint:
     health:
       show-details: when_authorized
@@ -57,14 +67,14 @@ management:
 logging:
   level:
     root: INFO
-    com.smartbooking: INFO
+    com.smartbooking: DEBUG
     org.springframework: INFO
     org.springframework.security: INFO
     org.hibernate.SQL: INFO
     org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLogger: OFF
 
 jwt:
-  secret: mySecretKeyForJWTTokenGenerationAndValidation12345678901234567890
+  secret: SmartServeAI_SecureJWTKey_ChangeInProduction_2024_LocalDev_Key!
   expiration: ${JWT_EXPIRATION:86400000}
   refresh-expiration: ${JWT_REFRESH_EXPIRATION:604800000}
 
@@ -78,11 +88,11 @@ storage:
   region: ${AWS_REGION:us-east-1}
 
 app:
-  cors-allowed-origins: ${APP_CORS_ALLOWED_ORIGINS:http://localhost:3000}
+  cors-allowed-origins: ${APP_CORS_ALLOWED_ORIGINS:http://localhost:3000,http://localhost:8080,https://*.vercel.app}
   cache:
-    redis-enabled: ${APP_CACHE_REDIS_ENABLED:false}
+    redis-enabled: false
   messaging:
-    rabbit-enabled: ${APP_MESSAGING_RABBIT_ENABLED:false}
+    rabbit-enabled: false
 
 openai:
   api-key: ${OPENAI_API_KEY:}

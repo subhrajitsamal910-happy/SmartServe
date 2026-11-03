@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "docx": "^9.15.1",
+    "pptxgenjs": "^4.0.1",
+    "puppeteer-core": "^25.16.0",
+    "qrcode": "^1.5.4"
+  }
+}

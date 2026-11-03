@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  body { margin: 0; padding: 20px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #ffffff; width: 1200px; }
+  .diagram-container { border: 2px solid #0f172a; border-radius: 16px; padding: 24px; background: #ffffff; }
+  .title { text-align: center; font-size: 22px; font-weight: 800; color: #0f172a; margin-bottom: 24px; }
+  .layout { display: flex; justify-content: space-between; align-items: stretch; }
+  .actor-col { width: 180px; display: flex; flex-direction: column; justify-content: space-around; align-items: center; }
+  .actor-card { background: #f8fafc; border: 2px solid #3b82f6; border-radius: 12px; padding: 16px; text-align: center; width: 140px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
+  .actor-icon { font-size: 32px; margin-bottom: 8px; }
+  .actor-title { font-weight: 800; font-size: 14px; color: #1e3a8a; }
+  .actor-role { font-size: 12px; color: #64748b; margin-top: 4px; }
+  .system-box { flex: 1; margin: 0 24px; border: 2px dashed #94a3b8; border-radius: 16px; padding: 20px; background: #fafafa; }
+  .system-title { text-align: center; font-weight: 700; color: #475569; font-size: 16px; margin-bottom: 16px; }
+  .uc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .uc-pill { background: #ffffff; border: 1.5px solid #2563eb; border-radius: 30px; padding: 10px 16px; text-align: center; font-size: 13px; font-weight: 600; color: #1e293b; box-shadow: 0 2px 4px rgba(0,0,0,0.05); display: flex; align-items: center; justify-content: center; }
+  .uc-admin { border-color: #dc2626; color: #991b1b; }
+  .uc-ai { border-color: #7c3aed; color: #5b21b6; }
+</style>
+</head>
+<body>
+<div class="diagram-container">
+  <div class="title">Figure 3.2: SmartServe AI – UML Use Case Diagram</div>
+  <div class="layout">
+    <div class="actor-col">
+      <div class="actor-card">
+        <div class="actor-icon">👤</div>
+        <div class="actor-title">Customer User</div>
+        <div class="actor-role">ROLE_USER</div>
+      </div>
+      <div class="actor-card" style="margin-top: 24px; border-color: #059669;">
+        <div class="actor-icon">🛠️</div>
+        <div class="actor-title">Service Provider</div>
+        <div class="actor-role">ROLE_PROVIDER</div>
+      </div>
+    </div>
+    <div class="system-box">
+      <div class="system-title">SmartServe AI System Boundary</div>
+      <div class="uc-grid">
+        <div class="uc-pill">UC1: Register & Authenticate (JWT)</div>
+        <div class="uc-pill">UC2: Discover Services & Categories</div>
+        <div class="uc-pill">UC3: Semantic Natural Search</div>
+        <div class="uc-pill">UC4: Schedule & Book Service Slot</div>
+        <div class="uc-pill uc-ai">UC5: AI Fraud Risk Assessment</div>
+        <div class="uc-pill">UC6: Simulated / Stripe Payment</div>
+        <div class="uc-pill uc-ai">UC7: Personalized Recommendations</div>
+        <div class="uc-pill uc-ai">UC8: Interactive AI Chatbot Concierge</div>
+        <div class="uc-pill">UC9: Cancel & Reschedule Booking</div>
+        <div class="uc-pill">UC10: Rate & Review Completed Service</div>
+        <div class="uc-pill uc-admin">UC11: Admin Analytics & Trends</div>
+        <div class="uc-pill uc-admin">UC12: Manage Provider Availability</div>
+        <div class="uc-pill">UC13: Realtime WebSocket Notifications</div>
+        <div class="uc-pill uc-admin">UC14: Review Flagged Bookings</div>
+      </div>
+    </div>
+    <div class="actor-col">
+      <div class="actor-card" style="border-color: #dc2626;">
+        <div class="actor-icon">🛡️</div>
+        <div class="actor-title">Administrator</div>
+        <div class="actor-role">ROLE_ADMIN</div>
+      </div>
+      <div class="actor-card" style="margin-top: 24px; border-color: #7c3aed;">
+        <div class="actor-icon">🤖</div>
+        <div class="actor-title">AI Engine</div>
+        <div class="actor-role">Fraud & Recommender</div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

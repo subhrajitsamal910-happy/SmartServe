@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  body { margin: 0; padding: 20px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #ffffff; width: 1200px; }
+  .diagram-container { border: 2px solid #0f172a; border-radius: 16px; padding: 24px; background: #f8fafc; }
+  .title { text-align: center; font-size: 22px; font-weight: 800; color: #0f172a; margin-bottom: 24px; }
+  .tables-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .entity { background: #ffffff; border-radius: 10px; border: 1.5px solid #cbd5e1; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); overflow: hidden; }
+  .entity-header { background: #1e293b; color: #ffffff; padding: 8px 12px; font-weight: 700; font-size: 14px; display: flex; justify-content: space-between; }
+  .entity-header.user { background: #1e3a8a; }
+  .entity-header.service { background: #065f46; }
+  .entity-header.booking { background: #7c2d12; }
+  .entity-header.provider { background: #581c87; }
+  .entity-header.rating { background: #831843; }
+  .entity-header.history { background: #134e4a; }
+  .field-list { padding: 8px 12px; font-size: 12px; line-height: 1.7; font-family: Consolas, monospace; }
+  .pk { color: #dc2626; font-weight: 700; }
+  .fk { color: #2563eb; font-weight: 700; }
+  .type { color: #64748b; font-size: 11px; }
+  .rel-box { margin-top: 20px; padding: 14px; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 13px; color: #334155; }
+  .rel-title { font-weight: 700; color: #0f172a; margin-bottom: 6px; }
+</style>
+</head>
+<body>
+<div class="diagram-container">
+  <div class="title">Figure 5.1: SmartServe AI – Relational Database Entity-Relationship (ER) Diagram</div>
+  <div class="tables-grid">
+    <div class="entity">
+      <div class="entity-header user"><span>users</span><span>Entity</span></div>
+      <div class="field-list">
+        <span class="pk">PK</span> id <span class="type">BIGSERIAL</span><br>
+        name <span class="type">VARCHAR(255) NOT NULL</span><br>
+        email <span class="type">VARCHAR(255) UNIQUE</span><br>
+        password <span class="type">VARCHAR(255) (Bcrypt)</span><br>
+        role <span class="type">VARCHAR(50) (ROLE_*)</span><br>
+        created_at <span class="type">TIMESTAMP</span>
+      </div>
+    </div>
+    <div class="entity">
+      <div class="entity-header provider"><span>service_provider</span><span>Entity</span></div>
+      <div class="field-list">
+        <span class="pk">PK</span> id <span class="type">BIGSERIAL</span><br>
+        name <span class="type">VARCHAR(255) NOT NULL</span><br>
+        email <span class="type">VARCHAR(255)</span><br>
+        phone <span class="type">VARCHAR(50)</span><br>
+        available <span class="type">BOOLEAN DEFAULT TRUE</span><br>
+        avatar_url <span class="type">VARCHAR(500)</span>
+      </div>
+    </div>
+    <div class="entity">
+      <div class="entity-header service"><span>services</span><span>Entity</span></div>
+      <div class="field-list">
+        <span class="pk">PK</span> id <span class="type">BIGSERIAL</span><br>
+        title <span class="type">VARCHAR(255) NOT NULL</span><br>
+        description <span class="type">TEXT</span><br>
+        category <span class="type">VARCHAR(50) (ENUM)</span><br>
+        price <span class="type">DOUBLE PRECISION</span><br>
+        <span class="fk">FK</span> provider_id <span class="type">BIGINT &rarr; provider</span>
+      </div>
+    </div>
+    <div class="entity">
+      <div class="entity-header booking"><span>bookings</span><span>Entity</span></div>
+      <div class="field-list">
+        <span class="pk">PK</span> id <span class="type">BIGSERIAL</span><br>
+        <span class="fk">FK</span> user_id <span class="type">BIGINT &rarr; users.id</span><br>
+        <span class="fk">FK</span> service_id <span class="type">BIGINT &rarr; services.id</span><br>
+        status <span class="type">VARCHAR(50) (CONFIRMED/FLAGGED)</span><br>
+        risk_score <span class="type">INT (0 - 100)</span><br>
+        fraud_message <span class="type">VARCHAR(255)</span><br>
+        payment_status <span class="type">VARCHAR(50) (SUCCESS/FAILED)</span><br>
+        payment_tx_id <span class="type">VARCHAR(100)</span><br>
+        scheduled_at <span class="type">TIMESTAMP</span><br>
+        duration_minutes <span class="type">INT (30 - 240)</span><br>
+        created_at <span class="type">TIMESTAMP</span>
+      </div>
+    </div>
+    <div class="entity">
+      <div class="entity-header rating"><span>ratings</span><span>Entity</span></div>
+      <div class="field-list">
+        <span class="pk">PK</span> id <span class="type">BIGSERIAL</span><br>
+        <span class="fk">FK</span> user_id <span class="type">BIGINT &rarr; users.id</span><br>
+        <span class="fk">FK</span> service_id <span class="type">BIGINT &rarr; services.id</span><br>
+        score <span class="type">INT CHECK (score 1-5)</span><br>
+        comment <span class="type">TEXT</span><br>
+        created_at <span class="type">TIMESTAMP</span>
+      </div>
+    </div>
+    <div class="entity">
+      <div class="entity-header history"><span>user_behavior_history</span><span>Entity</span></div>
+      <div class="field-list">
+        <span class="pk">PK</span> id <span class="type">BIGSERIAL</span><br>
+        <span class="fk">FK</span> user_id <span class="type">BIGINT &rarr; users.id</span><br>
+        <span class="fk">FK</span> service_id <span class="type">BIGINT &rarr; services.id</span><br>
+        action <span class="type">VARCHAR(50) (BOOKING/VIEW)</span><br>
+        metadata <span class="type">VARCHAR(500)</span><br>
+        created_at <span class="type">TIMESTAMP</span>
+      </div>
+    </div>
+  </div>
+  <div class="rel-box">
+    <div class="rel-title">Key Relationships & Cardinality:</div>
+    &bull; <strong>users (1) &mdash; (&infin;) bookings:</strong> A user can initiate many bookings.<br>
+    &bull; <strong>services (1) &mdash; (&infin;) bookings:</strong> A local service can be booked multiple times.<br>
+    &bull; <strong>service_provider (1) &mdash; (&infin;) services:</strong> A verified provider registers and offers multiple services.<br>
+    &bull; <strong>users (1) &mdash; (&infin;) ratings:</strong> Customers evaluate services with 1 to 5 star scores and textual reviews.<br>
+    &bull; <strong>users (1) &mdash; (&infin;) user_behavior_history:</strong> Real-time personalization tracking actions for collaborative filtering.
+  </div>
+</div>
+</body>
+</html>

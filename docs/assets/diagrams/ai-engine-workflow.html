@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  body { margin: 0; padding: 20px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #ffffff; width: 1200px; }
+  .diagram-container { border: 2px solid #0f172a; border-radius: 16px; padding: 24px; background: #f8fafc; }
+  .title { text-align: center; font-size: 22px; font-weight: 800; color: #0f172a; margin-bottom: 24px; }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .panel { background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 12px; padding: 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
+  .panel-header { font-weight: 800; font-size: 16px; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 2px solid; }
+  .panel-fraud .panel-header { color: #dc2626; border-color: #fca5a5; }
+  .panel-rec .panel-header { color: #2563eb; border-color: #93c5fd; }
+  .step { background: #f1f5f9; border-radius: 8px; padding: 10px 14px; margin-bottom: 12px; font-size: 13px; border-left: 4px solid #64748b; }
+  .panel-fraud .step { border-left-color: #dc2626; background: #fef2f2; }
+  .panel-rec .step { border-left-color: #2563eb; background: #eff6ff; }
+  .step strong { display: block; font-size: 13.5px; color: #0f172a; margin-bottom: 2px; }
+  .arrow { text-align: center; font-size: 16px; color: #94a3b8; margin: -6px 0 6px 0; font-weight: bold; }
+  .weight-bar { background: #e2e8f0; border-radius: 6px; height: 18px; margin-top: 6px; overflow: hidden; position: relative; }
+  .weight-fill { height: 100%; border-radius: 6px; color: #ffffff; font-size: 11px; font-weight: bold; line-height: 18px; text-align: right; padding-right: 6px; }
+</style>
+</head>
+<body>
+<div class="diagram-container">
+  <div class="title">Figure 3.3: AI Intelligence Engines – Fraud Detection &amp; Hybrid Recommendation Workflow</div>
+  <div class="cols">
+    <div class="panel panel-fraud">
+      <div class="panel-header">🛡️ Automated AI Fraud Detection Pipeline</div>
+      <div class="step">
+        <strong>1. Booking Request Interception</strong>
+        Captures User ID, Service ID, Timestamp, and Provider state at POST /api/bookings.
+      </div>
+      <div class="arrow">&darr;</div>
+      <div class="step">
+        <strong>2. Velocity Engine Check</strong>
+        Calculates bookings per minute (&gt;2) and bookings in past 1 hr (&gt;4). Adds velocity penalty +30.
+      </div>
+      <div class="arrow">&darr;</div>
+      <div class="step">
+        <strong>3. Pattern &amp; Repetition Analyzer</strong>
+        Evaluates repeat service orders (&gt;2 same service) & category concentration. Adds pattern penalty +25.
+      </div>
+      <div class="arrow">&darr;</div>
+      <div class="step">
+        <strong>4. Historical Risk Assessment</strong>
+        Scans previous user flagged booking ratio in database. Adds past misconduct penalty +25.
+      </div>
+      <div class="arrow">&darr;</div>
+      <div class="step">
+        <strong>5. Dynamic Threshold Gate (&gt;= 70 Risk Score)</strong>
+        Score &ge; 70: Mark booking <strong>FLAGGED</strong>, trigger payment hold, alert Admin.<br>
+        Score &lt; 70: Mark booking <strong>CONFIRMED</strong>, execute payment, notify WebSocket.
+      </div>
+    </div>
+
+    <div class="panel panel-rec">
+      <div class="panel-header">🤖 Hybrid Personalized Recommendation Engine</div>
+      <div class="step">
+        <strong>1. User Context &amp; History Ingestion</strong>
+        Fetches user's past 50 behavior actions, category preferences &amp; completed bookings.
+      </div>
+      <div class="arrow">&darr;</div>
+      <div class="step">
+        <strong>2. 6-Signal Multi-Criteria Scoring Formula:</strong>
+        <div style="margin-top: 8px;">
+          Collaborative Filtering (34%):
+          <div class="weight-bar"><div class="weight-fill" style="width: 34%; background: #2563eb;">34%</div></div>
+        </div>
+        <div style="margin-top: 6px;">
+          Customer Star Rating (20%):
+          <div class="weight-bar"><div class="weight-fill" style="width: 20%; background: #059669;">20%</div></div>
+        </div>
+        <div style="margin-top: 6px;">
+          Category Affinity (18%):
+          <div class="weight-bar"><div class="weight-fill" style="width: 18%; background: #7c3aed;">18%</div></div>
+        </div>
+        <div style="margin-top: 6px;">
+          Booking Popularity (16%):
+          <div class="weight-bar"><div class="weight-fill" style="width: 16%; background: #d97706;">16%</div></div>
+        </div>
+        <div style="margin-top: 6px;">
+          Recent User Behavior (10%):
+          <div class="weight-bar"><div class="weight-fill" style="width: 10%; background: #0891b2;">10%</div></div>
+        </div>
+        <div style="margin-top: 6px;">
+          Service Freshness (2%):
+          <div class="weight-bar"><div class="weight-fill" style="width: 10%; background: #475569;">2%</div></div>
+        </div>
+      </div>
+      <div class="arrow">&darr;</div>
+      <div class="step">
+        <strong>3. Ranked Output &amp; Cache Invalidation</strong>
+        Returns ranked DTOs to dashboard, records recommendation_viewed action, caches in Redis/Caffeine.
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

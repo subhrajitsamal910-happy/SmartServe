@@ -76,6 +76,7 @@ export type ChatResult = {
   intent: string;
   response: string;
   services: ServiceItem[];
+  suggestions?: string[];
 };
 
 export type ChartPoint = {

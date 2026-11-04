@@ -27,14 +27,22 @@ function clearSession() {
 }
 
 async function request<T>(path: string, init?: RequestInit, retry = true): Promise<T> {
-  const response = await fetch(`${API_BASE}${path}`, {
-    ...init,
-    headers: {
-      'Content-Type': 'application/json',
-      ...(getToken() ? { Authorization: `Bearer ${getToken()}` } : {}),
-      ...(init?.headers || {})
+  let response: Response;
+  try {
+    response = await fetch(`${API_BASE}${path}`, {
+      ...init,
+      headers: {
+        'Content-Type': 'application/json',
+        ...(getToken() ? { Authorization: `Bearer ${getToken()}` } : {}),
+        ...(init?.headers || {})
+      }
+    });
+  } catch (err: any) {
+    if (typeof window !== 'undefined' && (!err.status || err.name === 'TypeError')) {
+      throw new Error(`Cannot connect to backend server at ${API_BASE}. Please ensure Spring Boot is running.`);
     }
-  });
+    throw err;
+  }
 
   if (response.status === 401 && retry && typeof window !== 'undefined') {
     const refreshToken = localStorage.getItem('smartbooking_refresh_token');
@@ -83,7 +91,7 @@ export const api = {
   async login(email: string, password: string) {
     const auth = await request<AuthResponse>('/auth/login', {
       method: 'POST',
-      body: JSON.stringify({ email, password })
+      body: JSON.stringify({ email: email.trim(), password })
     }, false);
     setSession(auth);
     return auth;
@@ -91,7 +99,7 @@ export const api = {
   async register(name: string, email: string, password: string) {
     const user = await request<CurrentUser>('/auth/register', {
       method: 'POST',
-      body: JSON.stringify({ name, email, password })
+      body: JSON.stringify({ name: name.trim(), email: email.trim(), password })
     }, false);
     return user;
   },

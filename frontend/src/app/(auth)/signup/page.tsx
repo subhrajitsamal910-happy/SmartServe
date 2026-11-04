@@ -14,16 +14,20 @@ export default function SignupPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const submit = async (event: FormEvent) => {
     event.preventDefault();
+    setErrorMessage(null);
     try {
       setLoading(true);
-      await register(name, email, password);
-      toast.success('Account created');
+      await register(name.trim(), email.trim(), password);
+      toast.success('Account created successfully');
       router.push('/dashboard');
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : 'Signup failed');
+      const msg = error instanceof Error ? error.message : 'Signup failed';
+      setErrorMessage(msg);
+      toast.error(msg);
     } finally {
       setLoading(false);
     }
@@ -36,15 +40,58 @@ export default function SignupPage() {
         <form onSubmit={submit} className='glass card-border w-full rounded-[2rem] p-8 shadow-glow'>
           <h1 className='text-3xl font-black'>Create account</h1>
           <p className='mt-2 text-sm text-[var(--muted)]'>Start using the AI marketplace and booking intelligence dashboard.</p>
+          
+          {errorMessage && (
+            <div className='mt-4 rounded-xl border border-red-300 bg-red-50 p-3 text-xs text-red-700 dark:border-red-900/50 dark:bg-red-950/40 dark:text-red-300'>
+              <span className='font-bold'>Registration Error: </span>{errorMessage}
+            </div>
+          )}
+
           <div className='mt-6 space-y-4'>
-            <input value={name} onChange={(e) => setName(e.target.value)} placeholder='Full name' className='w-full rounded-2xl border border-slate-300 bg-transparent px-4 py-3 outline-none dark:border-slate-700' />
-            <input value={email} onChange={(e) => setEmail(e.target.value)} type='email' placeholder='Email' className='w-full rounded-2xl border border-slate-300 bg-transparent px-4 py-3 outline-none dark:border-slate-700' />
-            <input value={password} onChange={(e) => setPassword(e.target.value)} type='password' minLength={8} placeholder='Password (min 8 characters)' className='w-full rounded-2xl border border-slate-300 bg-transparent px-4 py-3 outline-none dark:border-slate-700' />
-            <button disabled={loading} className='w-full rounded-2xl bg-brand-600 px-4 py-3 font-semibold text-white disabled:opacity-60'>
+            <div>
+              <label className='block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1'>Full Name</label>
+              <input
+                value={name}
+                onChange={(e) => { setName(e.target.value); setErrorMessage(null); }}
+                required
+                placeholder='Full name'
+                className='w-full rounded-2xl border border-slate-300 bg-transparent px-4 py-3 outline-none dark:border-slate-700 focus:border-brand-500'
+              />
+            </div>
+            <div>
+              <label className='block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1'>Email Address</label>
+              <input
+                value={email}
+                onChange={(e) => { setEmail(e.target.value); setErrorMessage(null); }}
+                type='email'
+                required
+                placeholder='Email'
+                className='w-full rounded-2xl border border-slate-300 bg-transparent px-4 py-3 outline-none dark:border-slate-700 focus:border-brand-500'
+              />
+            </div>
+            <div>
+              <label className='block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1'>Password (min 6 characters)</label>
+              <input
+                value={password}
+                onChange={(e) => { setPassword(e.target.value); setErrorMessage(null); }}
+                type='password'
+                required
+                minLength={6}
+                placeholder='Password'
+                className='w-full rounded-2xl border border-slate-300 bg-transparent px-4 py-3 outline-none dark:border-slate-700 focus:border-brand-500'
+              />
+            </div>
+            <button
+              type='submit'
+              disabled={loading}
+              className='w-full rounded-2xl bg-brand-600 px-4 py-3 font-semibold text-white hover:bg-brand-700 transition disabled:opacity-60 cursor-pointer shadow-md'
+            >
               {loading ? 'Creating...' : 'Create account'}
             </button>
           </div>
-          <p className='mt-4 text-sm text-[var(--muted)]'>Already have an account? <Link href='/login' className='font-semibold text-brand-700 dark:text-brand-200'>Sign in</Link></p>
+          <p className='mt-4 text-sm text-[var(--muted)] text-center'>
+            Already have an account? <Link href='/login' className='font-semibold text-brand-700 dark:text-brand-200 hover:underline'>Sign in</Link>
+          </p>
         </form>
       </section>
     </main>
